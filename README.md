@@ -41,12 +41,12 @@ cargo install bootimage
 
 ### Building & Running
 
-Build the codebase for the custom target:
+Build the kernel:
 ```bash
-cargo build --target x86_64-usya.json
+cargo build
 ```
 
-Run the OS using QEMU via the `bootimage` runner:
+Run the OS using QEMU via the `builder` runner:
 ```bash
 cargo run
 ```

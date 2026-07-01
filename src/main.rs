@@ -2,7 +2,7 @@
 #![no_main]
 
 use bootloader::{entry_point, BootInfo};
-use bootloader::bootinfo::PixelFormat;
+use bootloader::boot_info::PixelFormat;
 use core::panic::PanicInfo;
 use tinybmp::Bmp;
 use embedded_graphics::pixelcolor::Rgb888;
@@ -15,8 +15,8 @@ fn kernel_main(boot_info: &'static mut BootInfo) -> ! {
         let info = framebuffer.info();
         let buffer = framebuffer.buffer_mut();
         
-        let width = info.width;
-        let height = info.height;
+        let width = info.horizontal_resolution;
+        let height = info.vertical_resolution;
         let bytes_per_pixel = info.bytes_per_pixel;
         let stride = info.stride;
 
@@ -51,12 +51,12 @@ fn kernel_main(boot_info: &'static mut BootInfo) -> ! {
                     let offset = (y * stride + x) * bytes_per_pixel;
                     
                     match info.pixel_format {
-                        PixelFormat::Rgb => {
+                        PixelFormat::RGB => {
                             buffer[offset] = color.r();
                             if bytes_per_pixel > 1 { buffer[offset + 1] = color.g(); }
                             if bytes_per_pixel > 2 { buffer[offset + 2] = color.b(); }
                         }
-                        PixelFormat::Bgr => {
+                        PixelFormat::BGR => {
                             buffer[offset] = color.b();
                             if bytes_per_pixel > 1 { buffer[offset + 1] = color.g(); }
                             if bytes_per_pixel > 2 { buffer[offset + 2] = color.r(); }
